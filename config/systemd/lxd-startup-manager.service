@@ -1,0 +1,22 @@
+# Managed by lxd-startup-manager
+[Unit]
+Description=LXD Startup Manager sequential startup queue
+Wants=snap.lxd.daemon.service
+After=snap.lxd.daemon.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/lxd-startup-manager run
+TimeoutStartSec=0
+RemainAfterExit=yes
+User=root
+Group=root
+UMask=0077
+RuntimeDirectory=lxd-startup-manager
+RuntimeDirectoryMode=0700
+RuntimeDirectoryPreserve=yes
+# The Canonical LXD snap launcher manages its own mount/AppArmor namespace
+# and user data. Filesystem sandboxing and NoNewPrivileges interfere with it.
+
+[Install]
+WantedBy=multi-user.target
